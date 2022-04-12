@@ -13,3 +13,10 @@ FetchContent_Declare(
 )
 
 add_subdirectory(glew)
+
+FetchContent_Declare(
+    glm
+    GIT_REPOSITORY "https://github.com/g-truc/glm"
+)
+
+add_subdirectory(glm)

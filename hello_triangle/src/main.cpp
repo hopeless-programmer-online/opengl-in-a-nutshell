@@ -4,10 +4,10 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 struct Vertex {
-    float x;
-    float y;
+    glm::vec2 position;
 };
 
 std::string VERTEX_SHADER_SOURCE = R"(#version 450
@@ -48,9 +48,9 @@ int main() {
         if (glewInit() != GLEW_OK) throw std::runtime_error("GLEW initialization failed.");
 
         const auto vertices = std::vector<Vertex>{
-            { -0.5f, -0.5f, },
-            { +0.5f, -0.5f, },
-            { +0.0f, +0.5f, },
+            { { -0.5f, -0.5f } },
+            { { +0.5f, -0.5f } },
+            { { +0.0f, +0.5f } },
         };
 
         GLuint vertexBuffer;

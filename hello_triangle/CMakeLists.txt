@@ -8,6 +8,7 @@ add_executable(hello_triangle "src/main.cpp")
 target_include_directories(hello_triangle PRIVATE
     "${GLFW_SOURCE_DIR}/include"
     "${glew_SOURCE_DIR}/include"
+    "${glm_SOURCE_DIR}"
 )
 target_link_libraries(hello_triangle PRIVATE
     glfw
