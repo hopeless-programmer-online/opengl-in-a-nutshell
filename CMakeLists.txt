@@ -8,4 +8,6 @@ project(opengl_in_a_nutshell
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+add_subdirectory(3rdparty)
+
 add_subdirectory(hello_triangle)
