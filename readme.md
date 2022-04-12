@@ -7,3 +7,4 @@
 ## Dependencies
 
 - [GLFW](https://www.glfw.org/).
+- [GLEW](https://github.com/Perlmint/glew-cmake).

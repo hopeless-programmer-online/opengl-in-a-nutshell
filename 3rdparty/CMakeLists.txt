@@ -6,3 +6,10 @@ FetchContent_Declare(
 )
 
 add_subdirectory(glfw)
+
+FetchContent_Declare(
+    glew
+    GIT_REPOSITORY "https://github.com/Perlmint/glew-cmake.git"
+)
+
+add_subdirectory(glew)
