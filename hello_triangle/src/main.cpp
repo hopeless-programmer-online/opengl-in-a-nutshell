@@ -1,3 +1,4 @@
+#include <string>
 #include <vector>
 #include <iostream>
 
@@ -23,7 +24,7 @@ std::string FRAGMENT_SHADER_SOURCE = R"(#version 450
 layout (location = 0) out vec4 color;
 
 void main() {
-    color = vec4(1);
+    color = vec4(0, 0.5, 1, 1);
 }
 )";
 const char* FRAGMENT_SHADER_SOURCES[] = { FRAGMENT_SHADER_SOURCE.c_str() };
@@ -61,7 +62,7 @@ int main() {
 
         glCreateVertexArrays(1, &attributesBuffer);
         glVertexArrayVertexBuffer(attributesBuffer, 0, vertexBuffer, 0, sizeof(Vertex));
-        glVertexArrayAttribFormat(attributesBuffer, 0, 3, GL_FLOAT, GL_FALSE, 0);
+        glVertexArrayAttribFormat(attributesBuffer, 0, 2, GL_FLOAT, GL_FALSE, 0);
         glEnableVertexArrayAttrib(attributesBuffer, 0);
 
         const auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -146,6 +147,25 @@ int main() {
             glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
             glBindVertexArray(attributesBuffer);
+            glUseProgram(program);
+
+            GLint validateStatus;
+
+            glGetProgramiv(program, GL_VALIDATE_STATUS, &validateStatus);
+
+            if (validateStatus != GL_TRUE) {
+                GLint size = 0;
+
+                glGetProgramiv(program, GL_INFO_LOG_LENGTH, &size);
+
+                std::string log;
+
+                log.resize(size);
+                glGetProgramInfoLog(program, size, &size, log.data());
+
+                throw std::runtime_error(log);
+            }
+
             glDrawArrays(GL_TRIANGLES, 0, 3);
             glFlush();
 
