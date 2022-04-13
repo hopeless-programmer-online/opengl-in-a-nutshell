@@ -11,3 +11,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_subdirectory(3rdparty)
 
 add_subdirectory(hello_triangle)
+add_subdirectory(colored_triangle)
