@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.0)
 
 project(opengl_in_a_nutshell
     VERSION 1.0

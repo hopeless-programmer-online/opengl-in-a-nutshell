@@ -148,6 +148,7 @@ int main() {
             glClear(GL_COLOR_BUFFER_BIT);
             glBindVertexArray(attributesBuffer);
             glUseProgram(program);
+            glValidateProgram(program);
 
             GLint validateStatus;
 
