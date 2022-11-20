@@ -4,12 +4,11 @@ message(STATUS "Fetching LIBPNG...")
 
 FetchContent_Declare(
     libpng
-    GIT_REPOSITORY "https://github.com/maisvendoo/libpng-cmake.git"
+    GIT_REPOSITORY "https://github.com/glennrp/libpng.git"
 )
 
-set(PNG_BUILD_ZLIB OFF)
-set(ZLIB_LIBRARY zlib)
-set(ZLIB_INCLUDE_DIR "${zlib_SOURCE_DIR}" "${zlib_BINARY_DIR}")
+# set(ZLIB_LIBRARIES zlibstatic)
+set(ZLIB_INCLUDE_DIRS "${zlib_SOURCE_DIR}" "${zlib_BINARY_DIR}")
 
 set(PNG_SHARED OFF)
 set(PNG_STATIC ON)
