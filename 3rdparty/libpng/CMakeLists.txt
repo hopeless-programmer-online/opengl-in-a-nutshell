@@ -7,10 +7,12 @@ find_package(ZLIB REQUIRED)
 set(ZLIB_INCLUDE_DIRS "${zlib_SOURCE_DIR}" "${zlib_BINARY_DIR}")
 
 set(BUILD_SHARED_LIBS OFF)
-set(PNG_SHARED OFF)
-set(PNG_STATIC ON)
-set(PNG_TESTS OFF)
-# set(PNG_HARDWARE_OPTIMIZATIONS ON)
+set(EVENT__DISABLE_TESTS ON)
+set(PNG_SHARED OFF CACHE INTERNAL "Build shared lib")
+set(PNG_STATIC ON CACHE INTERNAL "Build static lib")
+set(PNG_EXECUTABLES OFF CACHE INTERNAL "Build libpng executables")
+set(PNG_TESTS OFF CACHE INTERNAL "Build libpng tests")
+set(PNG_HARDWARE_OPTIMIZATIONS ON CACHE INTERNAL "Enable hardware optimizations")
 
 FetchContent_Declare(
     libpng

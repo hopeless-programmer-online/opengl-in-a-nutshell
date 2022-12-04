@@ -2,7 +2,7 @@ include(FetchContent)
 
 message(STATUS "Fetching ZLIB...")
 
-set(BUILD_SHARED_LIBS ON)
+set(BUILD_SHARED_LIBS OFF)
 set(ZLIB_BUILD_TESTS OFF)
 
 FetchContent_Declare(
