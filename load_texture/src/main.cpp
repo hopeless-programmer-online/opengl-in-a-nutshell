@@ -152,28 +152,25 @@ int main() {
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
 
-        std::vector<std::uint8_t> pixels = {
-            255, 0, 0,
-            0, 255, 0,
-            0, 0, 255,
+        png_image image = {};
 
-            0, 255, 255,
-            255, 0, 255,
-            255, 255, 0,
+        // memset(&image, 0, sizeof(image));
+        image.version = PNG_IMAGE_VERSION;
 
-            0, 0, 0,
-            127, 127, 127,
-            255, 255, 255,
-        };
+        if (png_image_begin_read_from_file(&image, "1.png") == 0) throw std::runtime_error("Failed to load image.");
 
-        png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+        image.format = PNG_FORMAT_RGBA;
+
+        std::vector<std::uint8_t> pixels(PNG_IMAGE_SIZE(image));
+
+        if (png_image_finish_read(&image, nullptr, pixels.data(), 0, nullptr) == 0) throw std::runtime_error("Failed to load image.");
 
         GLuint texture;
 
         glCreateTextures(GL_TEXTURE_2D, 1, &texture);
-        glTextureStorage2D(texture, 1, GL_RGB8, 3, 3);
+        glTextureStorage2D(texture, 1, GL_RGBA8, image.width, image.height);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTextureSubImage2D(texture, 0, 0, 0, 3, 3, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+        glTextureSubImage2D(texture, 0, 0, 0, image.width, image.height, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
 
         GLuint sampler;
 
@@ -194,6 +191,8 @@ int main() {
             glViewport(0, 0, width, height);
             glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glBindVertexArray(attributesBuffer);
             glUseProgram(program);
             glValidateProgram(program);
