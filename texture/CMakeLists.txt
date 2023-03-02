@@ -4,9 +4,8 @@ project(texture
 )
 
 add_executable(texture "src/main.cpp")
-
+target_compile_features(window PRIVATE cxx_std_20)
 target_include_directories(texture PRIVATE
-    "${GLFW_SOURCE_DIR}/include"
     "${glew_SOURCE_DIR}/include"
     "${glm_SOURCE_DIR}"
 )

@@ -4,9 +4,8 @@ project(colored_triangle
 )
 
 add_executable(colored_triangle "src/main.cpp")
-
+target_compile_features(window PRIVATE cxx_std_20)
 target_include_directories(colored_triangle PRIVATE
-    "${GLFW_SOURCE_DIR}/include"
     "${glew_SOURCE_DIR}/include"
     "${glm_SOURCE_DIR}"
 )
