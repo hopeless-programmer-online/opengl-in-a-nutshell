@@ -160,7 +160,6 @@ int main() {
             glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
             glBindVertexArray(vertexArrays);
-            glUniformBlockBinding(program, 0, 0);
             glUseProgram(program);
             glValidateProgram(program);
 
