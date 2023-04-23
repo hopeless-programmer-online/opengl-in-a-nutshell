@@ -48,9 +48,9 @@ int main() {
 
         if (glewInit() != GLEW_OK) throw std::runtime_error("GLEW initialization failed.");
 
-        GLuint attributesBuffer;
+        GLuint vertexArrays;
 
-        glCreateVertexArrays(1, &attributesBuffer);
+        glCreateVertexArrays(1, &vertexArrays);
 
         const auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -133,7 +133,7 @@ int main() {
             glViewport(0, 0, width, height);
             glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
-            glBindVertexArray(attributesBuffer);
+            glBindVertexArray(vertexArrays);
             glUseProgram(program);
             glValidateProgram(program);
 
@@ -161,7 +161,7 @@ int main() {
         }
 
         glDeleteProgram(program);
-        glDeleteVertexArrays(1, &attributesBuffer);
+        glDeleteVertexArrays(1, &vertexArrays);
 
         auto error = glGetError();
 
