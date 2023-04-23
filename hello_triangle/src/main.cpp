@@ -4,17 +4,17 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 
-struct Vertex {
-    glm::vec2 position;
-};
 
 std::string VERTEX_SHADER_SOURCE = R"(#version 450
-layout (location = 0) in vec2 position;
 
 void main() {
-    gl_Position = vec4(position, 0, 1);
+    gl_Position = vec4(
+        sin(radians(gl_VertexID * 120.0)) * 0.5,
+        cos(radians(gl_VertexID * 120.0)) * 0.5,
+        0,
+        1
+    );
 }
 )";
 const char* VERTEX_SHADER_SOURCES[] = { VERTEX_SHADER_SOURCE.c_str() };
@@ -29,6 +29,7 @@ void main() {
 )";
 const char* FRAGMENT_SHADER_SOURCES[] = { FRAGMENT_SHADER_SOURCE.c_str() };
 const GLint FRAGMENT_SHADER_LENGTHS[] = { static_cast<GLint>(FRAGMENT_SHADER_SOURCE.length()) };
+
 
 int main() {
     try {
@@ -47,23 +48,9 @@ int main() {
 
         if (glewInit() != GLEW_OK) throw std::runtime_error("GLEW initialization failed.");
 
-        const auto vertices = std::vector<Vertex>{
-            { { -0.5f, -0.5f } },
-            { { +0.5f, -0.5f } },
-            { { +0.0f, +0.5f } },
-        };
-
-        GLuint vertexBuffer;
-
-        glCreateBuffers(1, &vertexBuffer);
-        glNamedBufferStorage(vertexBuffer, sizeof(Vertex) * vertices.size(), vertices.data(), 0);
-
         GLuint attributesBuffer;
 
         glCreateVertexArrays(1, &attributesBuffer);
-        glVertexArrayVertexBuffer(attributesBuffer, 0, vertexBuffer, 0, sizeof(Vertex));
-        glVertexArrayAttribFormat(attributesBuffer, 0, 2, GL_FLOAT, GL_FALSE, 0);
-        glEnableVertexArrayAttrib(attributesBuffer, 0);
 
         const auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -175,7 +162,6 @@ int main() {
 
         glDeleteProgram(program);
         glDeleteVertexArrays(1, &attributesBuffer);
-        glDeleteBuffers(1, &vertexBuffer);
 
         auto error = glGetError();
 
