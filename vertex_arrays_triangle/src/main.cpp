@@ -45,10 +45,6 @@ int main() {
 
         if (glewInit() != GLEW_OK) throw std::runtime_error("GLEW initialization failed.");
 
-        GLuint vertexArrays;
-
-        glCreateVertexArrays(1, &vertexArrays);
-
         const auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
         glShaderSource(vertexShader, 1, VERTEX_SHADER_SOURCES, VERTEX_SHADER_LENGTHS);
@@ -130,7 +126,13 @@ int main() {
         glCreateBuffers(1, &vertexBuffer);
         glNamedBufferStorage(vertexBuffer, sizeof(coordinates), coordinates, 0);
 
+        GLuint vertexArrays;
+
+        glCreateVertexArrays(1, &vertexArrays);
+
         glVertexArrayVertexBuffer(vertexArrays, 0, vertexBuffer, 0, sizeof(float) * 2);
+
+        glVertexArrayAttribBinding(vertexArrays, 0, 0);
         glVertexArrayAttribFormat(vertexArrays, 0, 2, GL_FLOAT, GL_FALSE, 0);
         glEnableVertexArrayAttrib(vertexArrays, 0);
 

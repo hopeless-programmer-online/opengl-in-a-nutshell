@@ -76,16 +76,20 @@ int main() {
         glCreateBuffers(1, &indexBuffer);
         glNamedBufferStorage(indexBuffer, sizeof(decltype(indices)::value_type) * indices.size(), indices.data(), 0);
 
-        GLuint attributesBuffer;
+        GLuint vertexArrays;
 
-        glCreateVertexArrays(1, &attributesBuffer);
-        glVertexArrayVertexBuffer(attributesBuffer, 0, vertexBuffer, 0, sizeof(Vertex));
-        glVertexArrayAttribFormat(attributesBuffer, 0, 2, GL_FLOAT, GL_FALSE, 0);
-        glEnableVertexArrayAttrib(attributesBuffer, 0);
-        glVertexArrayVertexBuffer(attributesBuffer, 1, vertexBuffer, 0, sizeof(Vertex));
-        glVertexArrayAttribFormat(attributesBuffer, 1, 3, GL_UNSIGNED_BYTE, GL_TRUE, offsetof(Vertex, color));
-        glEnableVertexArrayAttrib(attributesBuffer, 1);
-        glVertexArrayElementBuffer(attributesBuffer, indexBuffer);
+        glCreateVertexArrays(1, &vertexArrays);
+        glVertexArrayVertexBuffer(vertexArrays, 0, vertexBuffer, 0, sizeof(Vertex));
+
+        glVertexArrayAttribBinding(vertexArrays, 0, 0);
+        glVertexArrayAttribFormat(vertexArrays, 0, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, position));
+        glEnableVertexArrayAttrib(vertexArrays, 0);
+
+        glVertexArrayAttribBinding(vertexArrays, 1, 0);
+        glVertexArrayAttribFormat(vertexArrays, 1, 3, GL_UNSIGNED_BYTE, GL_TRUE, offsetof(Vertex, color));
+        glEnableVertexArrayAttrib(vertexArrays, 1);
+
+        glVertexArrayElementBuffer(vertexArrays, indexBuffer);
 
         const auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -168,7 +172,7 @@ int main() {
             glViewport(0, 0, width, height);
             glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
-            glBindVertexArray(attributesBuffer);
+            glBindVertexArray(vertexArrays);
             glUseProgram(program);
             glValidateProgram(program);
 
@@ -196,7 +200,7 @@ int main() {
         }
 
         glDeleteProgram(program);
-        glDeleteVertexArrays(1, &attributesBuffer);
+        glDeleteVertexArrays(1, &vertexArrays);
         glDeleteBuffers(1, &vertexBuffer);
 
         auto error = glGetError();
