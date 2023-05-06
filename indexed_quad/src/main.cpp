@@ -201,6 +201,7 @@ int main() {
 
         glDeleteProgram(program);
         glDeleteVertexArrays(1, &vertexArrays);
+        glDeleteBuffers(1, &indexBuffer);
         glDeleteBuffers(1, &vertexBuffer);
 
         auto error = glGetError();

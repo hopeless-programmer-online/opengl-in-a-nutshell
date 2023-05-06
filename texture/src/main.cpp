@@ -33,8 +33,8 @@ layout (location = 0) in vec2 inMapping;
 layout (location = 0) out vec4 outColor;
 
 void main() {
-    outColor = texture(textureColor, inMapping);
     // outColor = vec4(inMapping, 0, 1);
+    outColor = texture(textureColor, inMapping);
 }
 )";
 const char* FRAGMENT_SHADER_SOURCES[] = { FRAGMENT_SHADER_SOURCE.c_str() };
@@ -61,9 +61,7 @@ int main() {
             { { -0.5f, -0.5f }, { 0.0f, 0.0f } },
             { { +0.5f, -0.5f }, { 1.0f, 0.0f } },
             { { -0.5f, +0.5f }, { 0.0f, 1.0f } },
-            { { +0.5f, -0.5f }, { 1.0f, 0.0f } },
             { { +0.5f, +0.5f }, { 1.0f, 1.0f } },
-            { { -0.5f, +0.5f }, { 0.0f, 1.0f } },
         };
 
         GLuint vertexBuffer;
@@ -71,15 +69,30 @@ int main() {
         glCreateBuffers(1, &vertexBuffer);
         glNamedBufferStorage(vertexBuffer, sizeof(Vertex) * vertices.size(), vertices.data(), 0);
 
-        GLuint attributesBuffer;
+        const auto indices = std::vector<std::uint32_t>{
+            0, 1, 2,
+            1, 3, 2,
+        };
 
-        glCreateVertexArrays(1, &attributesBuffer);
-        glVertexArrayVertexBuffer(attributesBuffer, 0, vertexBuffer, 0, sizeof(Vertex));
-        glVertexArrayAttribFormat(attributesBuffer, 0, 2, GL_FLOAT, GL_FALSE, 0);
-        glEnableVertexArrayAttrib(attributesBuffer, 0);
-        glVertexArrayVertexBuffer(attributesBuffer, 1, vertexBuffer, 0, sizeof(Vertex));
-        glVertexArrayAttribFormat(attributesBuffer, 1, 2, GL_FLOAT, GL_TRUE, offsetof(Vertex, mapping));
-        glEnableVertexArrayAttrib(attributesBuffer, 1);
+        GLuint indexBuffer;
+
+        glCreateBuffers(1, &indexBuffer);
+        glNamedBufferStorage(indexBuffer, sizeof(decltype(indices)::value_type) * indices.size(), indices.data(), 0);
+
+        GLuint vertexArrays;
+
+        glCreateVertexArrays(1, &vertexArrays);
+        glVertexArrayVertexBuffer(vertexArrays, 0, vertexBuffer, 0, sizeof(Vertex));
+
+        glVertexArrayAttribBinding(vertexArrays, 0, 0);
+        glVertexArrayAttribFormat(vertexArrays, 0, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, position));
+        glEnableVertexArrayAttrib(vertexArrays, 0);
+
+        glVertexArrayAttribBinding(vertexArrays, 1, 0);
+        glVertexArrayAttribFormat(vertexArrays, 1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, mapping));
+        glEnableVertexArrayAttrib(vertexArrays, 1);
+
+        glVertexArrayElementBuffer(vertexArrays, indexBuffer);
 
         const auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -191,7 +204,7 @@ int main() {
             glViewport(0, 0, width, height);
             glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
-            glBindVertexArray(attributesBuffer);
+            glBindVertexArray(vertexArrays);
             glUseProgram(program);
             glValidateProgram(program);
 
@@ -212,11 +225,10 @@ int main() {
                 throw std::runtime_error(log);
             }
 
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, texture);
+            glBindTextureUnit(0, texture);
             glBindSampler(0, sampler);
 
-            glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+            glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
             glFlush();
 
             glfwSwapBuffers(window);
@@ -225,7 +237,8 @@ int main() {
         glDeleteSamplers(1, &sampler);
         glDeleteTextures(1, &texture);
         glDeleteProgram(program);
-        glDeleteVertexArrays(1, &attributesBuffer);
+        glDeleteVertexArrays(1, &vertexArrays);
+        glDeleteBuffers(1, &indexBuffer);
         glDeleteBuffers(1, &vertexBuffer);
 
         auto error = glGetError();
