@@ -12,6 +12,7 @@ To build all projects from source with CMake run:
 
 The following dependencies must be installed manually:
 
+- [Git 2.44+](https://git-scm.com/downloads)
 - [CMake 3.25+](https://cmake.org/download).
 - [C++20](https://en.wikipedia.org/wiki/C++20) compatible compiler.
 
