@@ -53,7 +53,7 @@ int main() {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        const auto window = glfwCreateWindow(512, 512, "Hello triangle", nullptr, nullptr);
+        const auto window = glfwCreateWindow(512, 512, "Matrix 3D", nullptr, nullptr);
 
         if (!window) throw std::runtime_error("Window creation failed.");
 
@@ -62,48 +62,36 @@ int main() {
         if (glewInit() != GLEW_OK) throw std::runtime_error("GLEW initialization failed.");
 
         const auto vertices = std::vector<Vertex>{
-            // front face
-            { { -0.5f, -0.5f, +0.5f }, { 0.0f, 0.0f } },
-            { { +0.5f, -0.5f, +0.5f }, { 1.0f, 0.0f } },
-            { { -0.5f, +0.5f, +0.5f }, { 0.0f, 1.0f } },
-            { { +0.5f, -0.5f, +0.5f }, { 1.0f, 0.0f } },
-            { { +0.5f, +0.5f, +0.5f }, { 1.0f, 1.0f } },
-            { { -0.5f, +0.5f, +0.5f }, { 0.0f, 1.0f } },
-            // right face
-            { { +0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f } },
-            { { +0.5f, +0.5f, -0.5f }, { 0.0f, 1.0f } },
-            { { +0.5f, -0.5f, +0.5f }, { 1.0f, 0.0f } },
-            { { +0.5f, -0.5f, +0.5f }, { 1.0f, 0.0f } },
-            { { +0.5f, +0.5f, -0.5f }, { 0.0f, 1.0f } },
-            { { +0.5f, +0.5f, +0.5f }, { 1.0f, 1.0f } },
-            // front face
+            // back vertices
             { { -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f } },
-            { { -0.5f, +0.5f, -0.5f }, { 0.0f, 1.0f } },
-            { { +0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f } },
             { { +0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f } },
             { { -0.5f, +0.5f, -0.5f }, { 0.0f, 1.0f } },
             { { +0.5f, +0.5f, -0.5f }, { 1.0f, 1.0f } },
-            // left face
-            { { -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f } },
+            // right vertices
+            { { +0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f } },
+            { { +0.5f, -0.5f, +0.5f }, { 1.0f, 0.0f } },
+            { { +0.5f, +0.5f, -0.5f }, { 0.0f, 1.0f } },
+            { { +0.5f, +0.5f, +0.5f }, { 1.0f, 1.0f } },
+            // front vertices
+            { { +0.5f, -0.5f, +0.5f }, { 0.0f, 0.0f } },
             { { -0.5f, -0.5f, +0.5f }, { 1.0f, 0.0f } },
-            { { -0.5f, +0.5f, -0.5f }, { 0.0f, 1.0f } },
-            { { -0.5f, -0.5f, +0.5f }, { 1.0f, 0.0f } },
+            { { +0.5f, +0.5f, +0.5f }, { 0.0f, 1.0f } },
             { { -0.5f, +0.5f, +0.5f }, { 1.0f, 1.0f } },
-            { { -0.5f, +0.5f, -0.5f }, { 0.0f, 1.0f } },
-            // top face
-            { { -0.5f, +0.5f, -0.5f }, { 0.0f, 0.0f } },
+            // left vertices
+            { { -0.5f, -0.5f, +0.5f }, { 0.0f, 0.0f } },
+            { { -0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f } },
             { { -0.5f, +0.5f, +0.5f }, { 0.0f, 1.0f } },
-            { { +0.5f, +0.5f, -0.5f }, { 1.0f, 0.0f } },
+            { { -0.5f, +0.5f, -0.5f }, { 1.0f, 1.0f } },
+            // top vertices
+            { { -0.5f, +0.5f, -0.5f }, { 0.0f, 0.0f } },
             { { +0.5f, +0.5f, -0.5f }, { 1.0f, 0.0f } },
             { { -0.5f, +0.5f, +0.5f }, { 0.0f, 1.0f } },
             { { +0.5f, +0.5f, +0.5f }, { 1.0f, 1.0f } },
-            // bottom face
-            { { -0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f } },
-            { { +0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f } },
-            { { -0.5f, -0.5f, +0.5f }, { 0.0f, 1.0f } },
-            { { +0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f } },
-            { { +0.5f, -0.5f, +0.5f }, { 1.0f, 1.0f } },
-            { { -0.5f, -0.5f, +0.5f }, { 0.0f, 1.0f } },
+            // bottom vertices
+            { { +0.5f, -0.5f, -0.5f }, { 0.0f, 0.0f } },
+            { { -0.5f, -0.5f, -0.5f }, { 1.0f, 0.0f } },
+            { { +0.5f, -0.5f, +0.5f }, { 0.0f, 1.0f } },
+            { { -0.5f, -0.5f, +0.5f }, { 1.0f, 1.0f } },
         };
 
         GLuint vertexBuffer;
@@ -111,15 +99,34 @@ int main() {
         glCreateBuffers(1, &vertexBuffer);
         glNamedBufferStorage(vertexBuffer, sizeof(Vertex) * vertices.size(), vertices.data(), 0);
 
-        GLuint attributesBuffer;
+        const auto indices = std::vector<std::uint32_t>{
+            0, 1, 2, 1, 3, 2,       // back face
+            4, 5, 6, 5, 7, 6,       // right face
+            8, 9, 10, 9, 11, 10,    // front face
+            12, 13, 14, 13, 15, 14, // left face
+            16, 17, 18, 17, 19, 18, // top face
+            20, 21, 22, 21, 23, 22, // bottom face
+        };
 
-        glCreateVertexArrays(1, &attributesBuffer);
-        glVertexArrayVertexBuffer(attributesBuffer, 0, vertexBuffer, 0, sizeof(Vertex));
-        glVertexArrayAttribFormat(attributesBuffer, 0, 3, GL_FLOAT, GL_FALSE, 0);
-        glEnableVertexArrayAttrib(attributesBuffer, 0);
-        glVertexArrayVertexBuffer(attributesBuffer, 1, vertexBuffer, 0, sizeof(Vertex));
-        glVertexArrayAttribFormat(attributesBuffer, 1, 2, GL_FLOAT, GL_TRUE, offsetof(Vertex, mapping));
-        glEnableVertexArrayAttrib(attributesBuffer, 1);
+        GLuint indexBuffer;
+
+        glCreateBuffers(1, &indexBuffer);
+        glNamedBufferStorage(indexBuffer, sizeof(decltype(indices)::value_type) * indices.size(), indices.data(), 0);
+
+        GLuint vertexArrays;
+
+        glCreateVertexArrays(1, &vertexArrays);
+        glVertexArrayVertexBuffer(vertexArrays, 0, vertexBuffer, 0, sizeof(Vertex));
+
+        glVertexArrayAttribBinding(vertexArrays, 0, 0);
+        glVertexArrayAttribFormat(vertexArrays, 0, 3, GL_FLOAT, GL_FALSE, offsetof(Vertex, position));
+        glEnableVertexArrayAttrib(vertexArrays, 0);
+
+        glVertexArrayAttribBinding(vertexArrays, 1, 0);
+        glVertexArrayAttribFormat(vertexArrays, 1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, mapping));
+        glEnableVertexArrayAttrib(vertexArrays, 1);
+
+        glVertexArrayElementBuffer(vertexArrays, indexBuffer);
 
         const auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -241,7 +248,7 @@ int main() {
             glFrontFace(GL_CCW);
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glBindVertexArray(attributesBuffer);
+            glBindVertexArray(vertexArrays);
             glUseProgram(program);
             glValidateProgram(program);
 
@@ -275,6 +282,7 @@ int main() {
 
             auto transformation = glm::mat4x3(glm::mat4(view) * glm::mat4(model));
 
+            // y = glm::radians(30.0f);
             y += glm::radians(1.0f);
 
             glProgramUniformMatrix4x3fv(program, 0, 1, GL_FALSE, glm::value_ptr(transformation));
@@ -283,7 +291,7 @@ int main() {
             glBindTexture(GL_TEXTURE_2D, texture);
             glBindSampler(0, sampler);
 
-            glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+            glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
             glFlush();
 
             glfwSwapBuffers(window);
@@ -292,8 +300,9 @@ int main() {
         glDeleteSamplers(1, &sampler);
         glDeleteTextures(1, &texture);
         glDeleteProgram(program);
-        glDeleteVertexArrays(1, &attributesBuffer);
+        glDeleteVertexArrays(1, &vertexArrays);
         glDeleteBuffers(1, &vertexBuffer);
+        glDeleteBuffers(1, &indexBuffer);
 
         auto error = glGetError();
 
