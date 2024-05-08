@@ -53,7 +53,7 @@ int main() {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        const auto window = glfwCreateWindow(512, 512, "Hello triangle", nullptr, nullptr);
+        const auto window = glfwCreateWindow(512, 512, "Matrix 2D", nullptr, nullptr);
 
         if (!window) throw std::runtime_error("Window creation failed.");
 
