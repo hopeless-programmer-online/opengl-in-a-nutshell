@@ -20,15 +20,15 @@ The following dependencies must be installed manually:
 
 The following dependencies will be automatically installed during generation:
 
-- [C++20](https://en.wikipedia.org/wiki/C++20) compatible compiler.
 - [GLFW](https://www.glfw.org/).
 - [GLEW](https://github.com/Perlmint/glew-cmake).
 - [GLM](https://github.com/g-truc/glm).
 - [ZLIB](https://github.com/madler/zlib) (modified).
 - [LibPNG](https://github.com/glennrp/libpng).
+- [assimp](https://github.com/assimp/assimp).
 
 These dependencies installed locally and will not change any global packages/configurations.
-You can find them in build folder (`_build`).
+You can find them in build folder (`_build/_deps`).
 
 ## Known issues
 
