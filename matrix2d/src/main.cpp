@@ -173,7 +173,7 @@ int main() {
         // memset(&image, 0, sizeof(image));
         image.version = PNG_IMAGE_VERSION;
 
-        if (png_image_begin_read_from_file(&image, "1.png") == 0) throw std::runtime_error("Failed to load image.");
+        if (png_image_begin_read_from_file(&image, "media/image.png") == 0) throw std::runtime_error("Failed to load image.");
 
         image.format = PNG_FORMAT_RGBA;
 

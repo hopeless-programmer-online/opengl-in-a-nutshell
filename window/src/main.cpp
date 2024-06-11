@@ -8,7 +8,7 @@ int main() {
     try {
         if (!glfwInit()) throw std::runtime_error("GLFW initialization failed.");
 
-        const auto window = glfwCreateWindow(800, 600, "Hello triangle", nullptr, nullptr);
+        const auto window = glfwCreateWindow(800, 600, "Window", nullptr, nullptr);
 
         if (!window) throw std::runtime_error("Window creation failed.");
 

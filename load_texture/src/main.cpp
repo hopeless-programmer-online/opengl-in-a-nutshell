@@ -50,7 +50,7 @@ int main() {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        const auto window = glfwCreateWindow(800, 600, "Hello triangle", nullptr, nullptr);
+        const auto window = glfwCreateWindow(800, 600, "Load texture", nullptr, nullptr);
 
         if (!window) throw std::runtime_error("Window creation failed.");
 
@@ -157,7 +157,7 @@ int main() {
         // memset(&image, 0, sizeof(image));
         image.version = PNG_IMAGE_VERSION;
 
-        if (png_image_begin_read_from_file(&image, "1.png") == 0) throw std::runtime_error("Failed to load image.");
+        if (png_image_begin_read_from_file(&image, "media/image.png") == 0) throw std::runtime_error("Failed to load image.");
 
         image.format = PNG_FORMAT_RGBA;
 
