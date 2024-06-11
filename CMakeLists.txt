@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 
 project(opengl_in_a_nutshell
-    VERSION 1.0
+    VERSION 1.0.1
     LANGUAGES CXX
 )
 
