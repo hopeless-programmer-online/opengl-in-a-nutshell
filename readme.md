@@ -33,3 +33,4 @@ You can find them in build folder (`_build/_deps`).
 ## Known issues
 
 - Use `-G "MinGW Makefiles"` with `cmake -S . -B _build` to generate project for MinGW.
+- Make sure root is working directory. Some examples need to load files from `media` folder.

@@ -15,6 +15,7 @@ set(BUILD_TESTING           OFF CACHE INTERNAL "")
 set(SKIP_INSTALL_LIBRARIES  ON  CACHE INTERNAL "")
 set(SKIP_INSTALL_EXPORT     ON  CACHE INTERNAL "")
 set(ZLIB_INCLUDE_DIRS       "${zlib_SOURCE_DIR};${zlib_BINARY_DIR}")
+set(ZLIB_INCLUDE_DIR        "${zlib_SOURCE_DIR};${zlib_BINARY_DIR}")
 
 FetchContent_Declare(
     assimp
